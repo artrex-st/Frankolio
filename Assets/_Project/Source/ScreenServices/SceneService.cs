@@ -3,9 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class SceneService : ISceneService
 {
-    public void LoadingScene(string sceneName)
+    public void LoadingScene(ScreenReference sceneName)
     {
-        SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
+        SceneManager.LoadScene(sceneName.SceneName, LoadSceneMode.Single);
     }
 
     public void PrintSceneName()

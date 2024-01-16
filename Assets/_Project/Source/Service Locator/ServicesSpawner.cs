@@ -2,13 +2,11 @@ using UnityEngine;
 
 public class ServicesSpawner : MonoBehaviour
 {
-    [SerializeField] private string _sceneName;
+    [SerializeField] private ScreenReference _sceneName;
 
     private void Awake()
     {
         SpawnScreenService();
-        ISceneService sceneService = ServiceLocator.Instance.GetService<ISceneService>();
-        sceneService.LoadingScene(_sceneName);
     }
 
     private void SpawnScreenService()
@@ -17,5 +15,6 @@ public class ServicesSpawner : MonoBehaviour
         DontDestroyOnLoad(screenServiceObject);
         SceneService sceneService = new SceneService();
         ServiceLocator.Instance.RegisterService<ISceneService>(sceneService);
+        sceneService.LoadingScene(_sceneName);
     }
 }

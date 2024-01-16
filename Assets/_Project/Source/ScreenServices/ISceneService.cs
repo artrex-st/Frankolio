@@ -1,5 +1,5 @@
 public interface ISceneService
 {
-    public void LoadingScene(string sceneName);
+    public void LoadingScene(ScreenReference sceneName);
     public void PrintSceneName();
 }
