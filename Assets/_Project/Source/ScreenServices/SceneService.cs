@@ -1,15 +1,25 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneService : ISceneService
+public class SceneService : MonoBehaviour, ISceneService
 {
+    private Scene _additiveScenes;
+
     public void LoadingScene(ScreenReference sceneName)
     {
         SceneManager.LoadScene(sceneName.SceneName, LoadSceneMode.Single);
     }
 
-    public void PrintSceneName()
+    public void LoadingSceneAdditiveAsync(ScreenReference sceneName)
     {
-        Debug.Log($"This active scene Name is: {SceneManager.GetActiveScene().name}");
+        SceneManager.LoadSceneAsync(sceneName.SceneName, LoadSceneMode.Additive);
+        Scene loadedScene = SceneManager.GetSceneAt(SceneManager.sceneCount - 1);
+
+        _additiveScenes = loadedScene;
+    }
+
+    public void UnLoadAdditiveSceneAsync()
+    {
+        SceneManager.UnloadSceneAsync(_additiveScenes);
     }
 }

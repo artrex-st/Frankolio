@@ -1,5 +1,6 @@
 public interface ISceneService
 {
     public void LoadingScene(ScreenReference sceneName);
-    public void PrintSceneName();
+    public void LoadingSceneAdditiveAsync(ScreenReference sceneName);
+    public void UnLoadAdditiveSceneAsync();
 }

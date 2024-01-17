@@ -168,6 +168,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneName: {fileID: 11400000, guid: 864c9223fcbe0214a91e017ddaedb012, type: 2}
+  _saveDataName: data.json
+  _useEncryption: 0
+  _library: {fileID: 11400000, guid: 3e0ca6eb0cceb4f4c9f452604d722643, type: 2}
+  _audioMixer: {fileID: 24100000, guid: c1549a269cbe0cf458ae928b0473d091, type: 2}
+  _masterMixerGroup: {fileID: 24300002, guid: c1549a269cbe0cf458ae928b0473d091, type: 2}
+  _musicMixerGroup: {fileID: 3824597233730429973, guid: c1549a269cbe0cf458ae928b0473d091, type: 2}
+  _sfxMixerGroup: {fileID: 8113066815834979401, guid: c1549a269cbe0cf458ae928b0473d091, type: 2}
+  _uiSfxMixerGroup: {fileID: -1518493468648098543, guid: c1549a269cbe0cf458ae928b0473d091, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
