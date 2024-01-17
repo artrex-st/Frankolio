@@ -26,13 +26,13 @@ public class ServicesSpawner : MonoBehaviour
 
     private void SpawnScreenService()
     {
-        GameObject screenServiceObject = new GameObject(nameof(SceneService));
+        GameObject screenServiceObject = new GameObject(nameof(ScreenService));
         DontDestroyOnLoad(screenServiceObject);
 
-        SceneService sceneService = screenServiceObject.AddComponent<SceneService>();
-        ServiceLocator.Instance.RegisterService<ISceneService>(sceneService);
+        ScreenService screenService = screenServiceObject.AddComponent<ScreenService>();
+        ServiceLocator.Instance.RegisterService<IScreenService>(screenService);
 
-        sceneService.LoadingScene(_sceneName);
+        screenService.LoadingScene(_sceneName);
     }
 
     private void SpawnSaveDataService()

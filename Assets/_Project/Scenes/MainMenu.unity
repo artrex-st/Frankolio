@@ -339,6 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8151fab2887ee478c0a688354cd82d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _thisScreenRef: {fileID: 11400000, guid: 864c9223fcbe0214a91e017ddaedb012, type: 2}
   _settingsButton: {fileID: 622231749}
   _settingsScreenRef: {fileID: 11400000, guid: 13bbd6375f6551b4e863d53f27affe87, type: 2}
 --- !u!1001 &622231747

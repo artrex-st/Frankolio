@@ -2081,7 +2081,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 465ab76b51a19b14c9b8e0c8fa33df17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _thisScene: {fileID: 11400000, guid: 13bbd6375f6551b4e863d53f27affe87, type: 2}
+  _thisScreenRef: {fileID: 11400000, guid: 13bbd6375f6551b4e863d53f27affe87, type: 2}
   _closeButton: {fileID: 2051714157}
   _sliderMaster: {fileID: 663389893}
   _sliderMusic: {fileID: 61353611}

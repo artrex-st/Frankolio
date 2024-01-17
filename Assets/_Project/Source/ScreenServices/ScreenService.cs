@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneService : MonoBehaviour, ISceneService
+public class ScreenService : MonoBehaviour, IScreenService
 {
     private Scene _additiveScenes;
 

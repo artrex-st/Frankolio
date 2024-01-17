@@ -1,23 +1,16 @@
-using DataService;
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Source
 {
-    public class SettingsMenuController : MonoBehaviour
+    public sealed class SettingsMenuController : BaseScreen
     {
-        [SerializeField] private ScreenReference _thisScene;
         [SerializeField] private Button _closeButton;
         [Header("Settings UiOverlay elements")]
         [SerializeField] private Slider _sliderMaster;
         [SerializeField] private Slider _sliderMusic;
         [SerializeField] private Slider _sliderSfx;
         [SerializeField] private Slider _sliderUiSfx;
-
-        protected ISaveDataService SaveDataService;
-        protected ISceneService SceneService;
-        protected ISoundService SoundService;
 
         private void Awake()
         {
@@ -29,11 +22,9 @@ namespace Source
             Dispose();
         }
 
-        private void Initialize()
+        private new void Initialize()
         {
-            SaveDataService = ServiceLocator.Instance.GetService<ISaveDataService>();
-            SceneService = ServiceLocator.Instance.GetService<ISceneService>();
-            SoundService = ServiceLocator.Instance.GetService<ISoundService>();
+            base.Initialize();
 
             _closeButton.onClick.AddListener(CloseButtonClickHandler);
             _sliderMaster.onValueChanged.AddListener(OnMasterVolumeChangeHandler);
@@ -67,7 +58,7 @@ namespace Source
         private void CloseButtonClickHandler()
         {
             SaveSoundVolume();
-            SceneService.UnLoadAdditiveSceneAsync(_thisScene);
+            ScreenService.UnLoadAdditiveSceneAsync(_thisScreenRef);
         }
 
         private void SyncSlidersFromMixers()
