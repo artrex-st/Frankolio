@@ -7,6 +7,7 @@ namespace Source
 {
     public class SettingsMenuController : MonoBehaviour
     {
+        [SerializeField] private ScreenReference _thisScene;
         [SerializeField] private Button _closeButton;
         [Header("Settings UiOverlay elements")]
         [SerializeField] private Slider _sliderMaster;
@@ -66,8 +67,7 @@ namespace Source
         private void CloseButtonClickHandler()
         {
             SaveSoundVolume();
-            //TODO: close additive settings scene
-            //SceneService.UnLoadAdditiveSceneAsync();
+            SceneService.UnLoadAdditiveSceneAsync(_thisScene);
         }
 
         private void SyncSlidersFromMixers()

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,5 +22,10 @@ public class SceneService : MonoBehaviour, ISceneService
     public void UnLoadAdditiveSceneAsync()
     {
         SceneManager.UnloadSceneAsync(_additiveScenes);
+    }
+
+    public void UnLoadAdditiveSceneAsync(ScreenReference sceneName)
+    {
+        SceneManager.UnloadSceneAsync(sceneName.SceneName);
     }
 }
