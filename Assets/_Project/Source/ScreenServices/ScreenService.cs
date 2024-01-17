@@ -1,10 +1,15 @@
-using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ScreenService : MonoBehaviour, IScreenService
 {
     private Scene _additiveScenes;
+    private ScreenReference _loadingScreen;
+
+    public void Initialize(ScreenReference loadingScreen)
+    {
+        _loadingScreen = loadingScreen;
+    }
 
     public void LoadingScene(ScreenReference sceneName)
     {
@@ -14,14 +19,6 @@ public class ScreenService : MonoBehaviour, IScreenService
     public void LoadingSceneAdditiveAsync(ScreenReference sceneName)
     {
         SceneManager.LoadSceneAsync(sceneName.SceneName, LoadSceneMode.Additive);
-        Scene loadedScene = SceneManager.GetSceneAt(SceneManager.sceneCount - 1);
-
-        _additiveScenes = loadedScene;
-    }
-
-    public void UnLoadAdditiveSceneAsync()
-    {
-        SceneManager.UnloadSceneAsync(_additiveScenes);
     }
 
     public void UnLoadAdditiveSceneAsync(ScreenReference sceneName)

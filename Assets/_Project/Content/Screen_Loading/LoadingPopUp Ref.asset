@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5294586db04a77d42b821cacd27048bc, type: 3}
   m_Name: LoadingPopUp Ref
   m_EditorClassIdentifier: 
-  _sceneName: 
+  _sceneName: LoadingPopUp

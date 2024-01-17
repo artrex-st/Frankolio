@@ -4,14 +4,15 @@ using UnityEngine.Audio;
 
 public class ServicesSpawner : MonoBehaviour
 {
+    [Header("Screen Services")]
     [SerializeField] private ScreenReference _sceneName;
-    [Header("Save Data Configuration")]
+    [SerializeField] private ScreenReference _loadingScreenRef;
+    [Header("Save Data Services")]
     [SerializeField] private string _saveDataName = "data.json";
     [SerializeField] private bool _useEncryption = false;
-    [Header("Sound Configuration")]
+    [Header("Sound Services")]
     [SerializeField] private SoundLibrary _library;
     [SerializeField] private AudioMixer _audioMixer;
-    [SerializeField] private AudioMixerGroup _masterMixerGroup;
     [SerializeField] private AudioMixerGroup _musicMixerGroup;
     [SerializeField] private AudioMixerGroup _sfxMixerGroup;
     [SerializeField] private AudioMixerGroup _uiSfxMixerGroup;
@@ -31,7 +32,7 @@ public class ServicesSpawner : MonoBehaviour
 
         ScreenService screenService = screenServiceObject.AddComponent<ScreenService>();
         ServiceLocator.Instance.RegisterService<IScreenService>(screenService);
-
+        screenService.Initialize(_loadingScreenRef);
         screenService.LoadingScene(_sceneName);
     }
 
