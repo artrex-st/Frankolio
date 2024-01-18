@@ -857,6 +857,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6403423598099727556, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6610262533501722441, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
       propertyPath: m_Name
       value: LoadingBase_Button

@@ -5,8 +5,10 @@ using UnityEngine.Audio;
 public class ServicesSpawner : MonoBehaviour
 {
     [Header("Screen Services")]
-    [SerializeField] private ScreenReference _sceneName;
+    [SerializeField] private ScreenReference _startupScreenName;
+    [SerializeField] private ScreenReference _firstSceneName;
     [SerializeField] private ScreenReference _loadingScreenRef;
+    [SerializeField] private float _fakeLoadingTime = 0f;
     [Header("Save Data Services")]
     [SerializeField] private string _saveDataName = "data.json";
     [SerializeField] private bool _useEncryption = false;
@@ -32,8 +34,8 @@ public class ServicesSpawner : MonoBehaviour
 
         ScreenService screenService = screenServiceObject.AddComponent<ScreenService>();
         ServiceLocator.Instance.RegisterService<IScreenService>(screenService);
-        screenService.Initialize(_loadingScreenRef);
-        screenService.LoadingSceneAsync(_sceneName);
+        screenService.Initialize(_startupScreenName, _loadingScreenRef, _fakeLoadingTime);
+        screenService.LoadingSceneAsync(_firstSceneName);
     }
 
     private void SpawnSaveDataService()

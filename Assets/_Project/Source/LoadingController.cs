@@ -15,7 +15,7 @@ namespace Source
 
         private void Start()
         {
-            InitializeAsync();
+            Initialize();
         }
 
         private void OnDestroy()
@@ -23,9 +23,9 @@ namespace Source
             Dispose();
         }
 
-        private async void InitializeAsync()
+        private new void Initialize()
         {
-            Initialize();
+            base.Initialize();
 
             //_cancelButton.onClick.AddListener(CancelLoadingOperationClickHandler);
             EventsService.Subscribe<ResponseLoadingPercentEvent>(HandlerResponseLoadingPercentEvent);
@@ -64,7 +64,6 @@ namespace Source
         private void HandlerResponseLoadingPercentEvent(ResponseLoadingPercentEvent e)
         {
             _textLoadingPercent.text = $"Loading {e.Percent * 100}%";
-            Debug.Log($"Loading percent: {e.Percent}%");
         }
 
         private new void Dispose()

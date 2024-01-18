@@ -78,8 +78,9 @@ namespace Source
             SaveDataService.SaveGame();
         }
 
-        private void Dispose()
+        private new void Dispose()
         {
+            base.Dispose();
             _closeButton.onClick.RemoveAllListeners();
             _sliderMaster.onValueChanged.RemoveAllListeners();
             _sliderMusic.onValueChanged.RemoveAllListeners();

@@ -23,14 +23,17 @@ public readonly struct ResponseLoadingPercentEvent : IEvent
 public class ScreenService : MonoBehaviour, IScreenService
 {
     private ScreenReference _loadingScreen;
-    private List<AsyncOperation> _scenesLoading = new();
+    private List<AsyncOperation> _scenesToLoading = new();
     private Stack<ScreenReference> _loadedScenes = new();
     private IEventsService _eventsService;
+    private float _fakeLoadTime;
 
-    public void Initialize(ScreenReference loadingScreen)
+    public void Initialize(ScreenReference startupScreen, ScreenReference loadingScreen, float fakeLoadingTime)
     {
         _loadingScreen = loadingScreen;
         _eventsService = ServiceLocator.Instance.GetService<IEventsService>();
+        _loadedScenes.Push(startupScreen);
+        _fakeLoadTime = fakeLoadingTime;
     }
 
     public void LoadingSceneAsync(ScreenReference sceneName)
@@ -39,46 +42,41 @@ public class ScreenService : MonoBehaviour, IScreenService
 
         loading.completed += async operation =>
         {
-            //await Task.Delay(TimeSpan.FromSeconds(2));
+            _scenesToLoading.Add(SceneManager.LoadSceneAsync(sceneName.SceneName, LoadSceneMode.Additive));
 
             foreach (ScreenReference screenReference in _loadedScenes)
             {
-                _scenesLoading.Add(SceneManager.UnloadSceneAsync(screenReference.SceneName));
+                _scenesToLoading.Add(SceneManager.UnloadSceneAsync(screenReference.SceneName));
             }
 
-            _scenesLoading.Add(SceneManager.LoadSceneAsync(sceneName.SceneName));
             _loadedScenes.Clear();
             _loadedScenes.Push(sceneName);
-            StartLoadingProgressAsync();
-            SceneManager.UnloadSceneAsync(_loadingScreen.SceneName);
+            await StartLoadingProgressAsync();
         };
     }
 
     private async UniTask StartLoadingProgressAsync()
     {
-        float totalSceneProgress;
+        float totalSceneProgress = 0;
 
-        for (int i = 0; i < _scenesLoading.Count; i++)
+        do
         {
-            while (!_scenesLoading[i].isDone)
+            foreach (AsyncOperation operation in _scenesToLoading)
             {
-                totalSceneProgress = 0;
-                foreach (AsyncOperation operation in _scenesLoading)
-                {
-                    totalSceneProgress += operation.progress;
-                }
-
-                //_loadBar.value = totalSceneProgress;
-                _eventsService.Invoke(new ResponseLoadingPercentEvent(totalSceneProgress));
-                //totalSceneProgress = (totalSceneProgress / _scenesLoading.Count) * 100f;
-                //_loadBarText.text = $"Loading ... {Mathf.RoundToInt(totalSceneProgress)}%";
-                Debug.Log($"Loading... ");
-                await UniTask.Yield();
+                totalSceneProgress += operation.progress;
             }
-        }
 
-        await UniTask.Delay(TimeSpan.FromSeconds(2));
-        _scenesLoading.Clear();
+            //_loadBar.value = totalSceneProgress;
+            //totalSceneProgress /= _scenesToLoading.Count;
+            totalSceneProgress = Mathf.Clamp01((totalSceneProgress / _scenesToLoading.Count) / .9f);
+            _eventsService.Invoke(new ResponseLoadingPercentEvent(totalSceneProgress));
+            Debug.Log($"Loading... {totalSceneProgress} / {_scenesToLoading.Count}");
+            await UniTask.Delay(TimeSpan.FromSeconds(_fakeLoadTime));
+        }
+        while (totalSceneProgress < .9f);
+
+        await SceneManager.UnloadSceneAsync(_loadingScreen.SceneName);
+        _scenesToLoading.Clear();
     }
 
     public void LoadingSceneAdditiveAsync(ScreenReference sceneName)
