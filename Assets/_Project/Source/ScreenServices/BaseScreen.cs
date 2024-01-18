@@ -20,4 +20,11 @@ public class BaseScreen : MonoBehaviour
         Debug.Log($"Initialize <color=white>{_thisScreenRef.SceneName}</color>");
 #endif
     }
+
+    protected void Dispose()
+    {
+#if UNITY_EDITOR
+        Debug.Log($"Disposed <color=Orage>{_thisScreenRef.SceneName}</color>");
+#endif
+    }
 }

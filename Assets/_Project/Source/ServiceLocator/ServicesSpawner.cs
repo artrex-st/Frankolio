@@ -33,7 +33,7 @@ public class ServicesSpawner : MonoBehaviour
         ScreenService screenService = screenServiceObject.AddComponent<ScreenService>();
         ServiceLocator.Instance.RegisterService<IScreenService>(screenService);
         screenService.Initialize(_loadingScreenRef);
-        screenService.LoadingScene(_sceneName);
+        screenService.LoadingSceneAsync(_sceneName);
     }
 
     private void SpawnSaveDataService()
