@@ -1,5 +1,3 @@
-using Cysharp.Threading.Tasks;
-using System;
 using System.Threading;
 using TMPro;
 using UnityEngine;
@@ -11,11 +9,19 @@ namespace Source
     {
         [SerializeField] private Button _cancelButton;
         [SerializeField] private TextMeshProUGUI _textLoadingPercent;
-        private CancellationTokenSource _cancellationTokenSource = new();
+        [SerializeField] private Slider _loadBar;
+        private float _target;
+        private const float LoadBarSpeed = 10f;
 
         private void Start()
         {
             Initialize();
+        }
+
+        private void Update()
+        {
+            _loadBar.value = Mathf.Lerp(_loadBar.value, _target, LoadBarSpeed * Time.deltaTime);
+            _textLoadingPercent.text = $"Loading {(_loadBar.value * 100):N0}%";
         }
 
         private void OnDestroy()
@@ -26,44 +32,13 @@ namespace Source
         private new void Initialize()
         {
             base.Initialize();
-
-            //_cancelButton.onClick.AddListener(CancelLoadingOperationClickHandler);
             EventsService.Subscribe<ResponseLoadingPercentEvent>(HandlerResponseLoadingPercentEvent);
-
-            // CancellationToken cancellationToken = _cancellationTokenSource.Token;
-            //
-            // try
-            // {
-            //     bool result = await SimulateAsyncOperationAsync(cancellationToken);
-            //
-            //     Debug.Log($"Operação concluída com sucesso? {!result}");
-            // }
-            // catch (OperationCanceledException)
-            // {
-            //     Debug.Log("Operação cancelada por exceção.");
-            // }
-            // finally
-            // {
-            //     ScreenService.UnLoadAdditiveSceneAsync(_thisScreenRef);
-            // }
+            _loadBar.value = 0;
         }
-
-        // private async UniTask<bool> SimulateAsyncOperationAsync(CancellationToken cancellationToken)
-        // {
-        //     //await UniTask.Delay(TimeSpan.FromSeconds(10), cancellationToken: cancellationToken);
-        //     cancellationToken.ThrowIfCancellationRequested();
-        //
-        //     return cancellationToken.IsCancellationRequested;
-        // }
-
-        // private void CancelLoadingOperationClickHandler()
-        // {
-        //     _cancellationTokenSource.Cancel();
-        // }
 
         private void HandlerResponseLoadingPercentEvent(ResponseLoadingPercentEvent e)
         {
-            _textLoadingPercent.text = $"Loading {e.Percent * 100}%";
+            _target = e.Percent;
         }
 
         private new void Dispose()
