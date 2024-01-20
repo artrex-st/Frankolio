@@ -129,7 +129,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 1291235863}
+    m_TransformParent: {fileID: 1291235862}
     m_Modifications:
     - target: {fileID: 2739514366931639643, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
       propertyPath: m_Pivot.x
@@ -181,15 +181,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2739514366931639643, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2739514366931639643, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2739514366931639643, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 2739514366931639643, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -213,11 +213,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6610262533501722441, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
       propertyPath: m_Name
-      value: MainMenuBase_Button
+      value: GameMenuBase_Button
       objectReference: {fileID: 0}
     - target: {fileID: 6686724662015092135, guid: 3aa46ff0a24c48649b341250bd6cc0f9, type: 3}
       propertyPath: m_text
-      value: Main Menu
+      value: Game Menu
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -343,6 +343,10 @@ PrefabInstance:
     - target: {fileID: 1034869102669919737, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
       propertyPath: m_Name
       value: GameMenu_Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048271972035185488, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1737020294796038047, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
       propertyPath: m_Pivot.x
@@ -471,10 +475,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 657331313199048720, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 6907495305055558639, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1337615313}
-    - targetCorrespondingSourceObject: {fileID: 4754706861559267305, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 6907495305055558639, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 245122711}
     m_AddedComponents:
@@ -484,12 +488,7 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
 --- !u!224 &1291235862 stripped
 RectTransform:
-  m_CorrespondingSourceObject: {fileID: 657331313199048720, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
-  m_PrefabInstance: {fileID: 1291235861}
-  m_PrefabAsset: {fileID: 0}
---- !u!224 &1291235863 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 4754706861559267305, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
+  m_CorrespondingSourceObject: {fileID: 6907495305055558639, guid: 2ccd3afe33a1d3c4faf46cbfdf572c6d, type: 3}
   m_PrefabInstance: {fileID: 1291235861}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1291235864 stripped
@@ -578,15 +577,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4099469526285676869, guid: 77c2a2f4fce91c84d8cfc9569a3eef51, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4099469526285676869, guid: 77c2a2f4fce91c84d8cfc9569a3eef51, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4099469526285676869, guid: 77c2a2f4fce91c84d8cfc9569a3eef51, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4099469526285676869, guid: 77c2a2f4fce91c84d8cfc9569a3eef51, type: 3}
       propertyPath: m_AnchoredPosition.x
