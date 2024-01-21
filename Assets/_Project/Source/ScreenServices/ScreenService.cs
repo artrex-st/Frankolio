@@ -23,8 +23,8 @@ public readonly struct ResponseLoadingPercentEvent : IEvent
 public class ScreenService : MonoBehaviour, IScreenService
 {
     private ScreenReference _loadingScreen;
-    private List<AsyncOperation> _scenesToLoading = new();
-    private Stack<ScreenReference> _loadedScenes = new();
+    private readonly List<AsyncOperation> _scenesToLoading = new();
+    private readonly Stack<ScreenReference> _loadedScenes = new();
     private IEventsService _eventsService;
     private float _fakeLoadTime;
 
@@ -51,6 +51,30 @@ public class ScreenService : MonoBehaviour, IScreenService
 
             _loadedScenes.Clear();
             _loadedScenes.Push(sceneName);
+            await StartLoadingProgressAsync();
+        };
+    }
+
+    public void LoadingScenesAsync(List<ScreenReference> scenesName)
+    {
+        AsyncOperation loading = SceneManager.LoadSceneAsync(_loadingScreen.SceneName, LoadSceneMode.Additive);
+
+        loading.completed += async operation =>
+        {
+
+            foreach (ScreenReference screenReference in _loadedScenes)
+            {
+                _scenesToLoading.Add(SceneManager.UnloadSceneAsync(screenReference.SceneName));
+            }
+
+            _loadedScenes.Clear();
+
+            foreach (ScreenReference screenReference in scenesName)
+            {
+                _scenesToLoading.Add(SceneManager.LoadSceneAsync(screenReference.SceneName, LoadSceneMode.Additive));
+                _loadedScenes.Push(screenReference);
+            }
+
             await StartLoadingProgressAsync();
         };
     }

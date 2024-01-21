@@ -4,6 +4,7 @@ using UnityEngine.Audio;
 
 public class ServicesSpawner : MonoBehaviour
 {
+    [SerializeField] private GameObject _eventSystem;
     [Header("Screen Services")]
     [SerializeField] private ScreenReference _startupScreenName;
     [SerializeField] private ScreenReference _firstSceneName;
@@ -21,6 +22,7 @@ public class ServicesSpawner : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(_eventSystem);
         SpawnEventService();
         SpawnSaveDataService();
         SpawnSoundService();

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +9,7 @@ public sealed class MainMenuController : BaseScreen
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _loadingButton;
     [SerializeField] private ScreenReference _gameScreenRef;
+    [SerializeField] private ScreenReference _gameMenuScreenRef;
     [SerializeField] private ScreenReference _settingsScreenRef;
     [SerializeField] private ScreenReference _loadingScreenRef;
 
@@ -26,7 +28,13 @@ public sealed class MainMenuController : BaseScreen
 
     private void HandlerGameClick()
     {
-        ScreenService.LoadingSceneAsync(_gameScreenRef);
+        List<ScreenReference> x = new List<ScreenReference>
+        {
+            _gameScreenRef,
+            _gameMenuScreenRef,
+        };
+
+        ScreenService.LoadingScenesAsync(x);
     }
 
     private void HandlerLoadingClick()
