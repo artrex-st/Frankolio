@@ -1,79 +1,45 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public readonly struct StartInputXEvent : IEvent
+public readonly struct InputXEvent : IEvent
 {
     public readonly float AxisX;
-    public readonly bool IsMoving;
+    public readonly double Duration;
+    public readonly InputActionPhase CurrentPhase;
 
-    public StartInputXEvent(float axisX, bool isMoving)
+    public InputXEvent(float axisX, double duration, InputActionPhase currentPhase)
     {
         AxisX = axisX;
-        IsMoving = isMoving;
+        Duration = duration;
+        CurrentPhase = currentPhase;
     }
 }
 
-public readonly struct PerformInputXEvent : IEvent
-{
-    public readonly float AxisX;
-    public readonly bool IsMoving;
-
-    public PerformInputXEvent(float axisX, bool isMoving)
-    {
-        AxisX = axisX;
-        IsMoving = isMoving;
-    }
-}
-
-public readonly struct CancelInputXEvent : IEvent
-{
-    public readonly float AxisX;
-    public readonly bool IsMoving;
-
-    public CancelInputXEvent(float axisX, bool isMoving)
-    {
-        IsMoving = isMoving;
-        AxisX = axisX;
-    }
-}
-
-public readonly struct StartInputYEvent : IEvent
+public readonly struct InputYEvent : IEvent
 {
     public readonly float AxisY;
-    public readonly bool IsMoving;
+    public readonly double Duration;
+    public readonly InputActionPhase CurrentPhase;
 
-    public StartInputYEvent(float axisY, bool isMoving)
+    public InputYEvent(float axisY, double duration, InputActionPhase currentPhase)
     {
         AxisY = axisY;
-        IsMoving = isMoving;
+        Duration = duration;
+        CurrentPhase = currentPhase;
     }
 }
 
-public readonly struct PerformInputYEvent : IEvent
+public readonly struct RequestInputPressEvent : IEvent
 {
-    public readonly float AxisY;
-    public readonly bool IsMoving;
+    public readonly double Duration;
+    public readonly InputActionPhase CurrentPhase;
 
-    public PerformInputYEvent(float axisY, bool isMoving)
+    public RequestInputPressEvent(double duration, InputActionPhase currentPhase)
     {
-        AxisY = axisY;
-        IsMoving = isMoving;
+        Duration = duration;
+        CurrentPhase = currentPhase;
     }
 }
-
-public readonly struct CancelInputYEvent : IEvent
-{
-    public readonly float AxisY;
-    public readonly bool IsMoving;
-
-    public CancelInputYEvent(float axisY, bool isMoving)
-    {
-        IsMoving = isMoving;
-        AxisY = axisY;
-    }
-}
-
-public readonly struct RequestInputPressEvent : IEvent { }
 
 public class InputManager : MonoBehaviour
 {
@@ -95,50 +61,31 @@ public class InputManager : MonoBehaviour
         _inputsActions = new InputActions();
         _inputsActions.Player.Enable();
 
-        _inputsActions.Player.Axis_X.started += MoveXStarted;
-        _inputsActions.Player.Axis_X.performed += MoveXPerformed;
-        _inputsActions.Player.Axis_X.canceled += MoveXCanceled;
+        _inputsActions.Player.Axis_X.started += MoveX;
+        _inputsActions.Player.Axis_X.performed += MoveX;
+        _inputsActions.Player.Axis_X.canceled += MoveX;
 
-        _inputsActions.Player.Axis_Y.started += MoveYStarted;
-        _inputsActions.Player.Axis_Y.performed += MoveYPerformed;
-        _inputsActions.Player.Axis_Y.canceled += MoveYCanceled;
+        _inputsActions.Player.Axis_Y.started += MoveY;
+        _inputsActions.Player.Axis_Y.performed += MoveY;
+        _inputsActions.Player.Axis_Y.canceled += MoveY;
 
         _inputsActions.Player.Press.started += PressStarted;
+        _inputsActions.Player.Press.canceled += PressStarted;
     }
 
-    private void MoveXStarted(InputAction.CallbackContext context)
+    private void MoveX(InputAction.CallbackContext context)
     {
-        new StartInputXEvent(context.ReadValue<float>(), context.performed).Invoke();
+        new InputXEvent(context.ReadValue<float>(), context.duration, context.phase).Invoke();
     }
 
-    private void MoveXPerformed(InputAction.CallbackContext context)
+    private void MoveY(InputAction.CallbackContext context)
     {
-        new PerformInputXEvent(context.ReadValue<float>(), context.performed).Invoke();
-    }
-
-    private void MoveXCanceled(InputAction.CallbackContext context)
-    {
-        new CancelInputXEvent(context.ReadValue<float>(), context.performed).Invoke();
-    }
-
-    private void MoveYStarted(InputAction.CallbackContext context)
-    {
-        new StartInputYEvent(context.ReadValue<float>(), context.performed).Invoke();
-    }
-
-    private void MoveYPerformed(InputAction.CallbackContext context)
-    {
-        new PerformInputYEvent(context.ReadValue<float>(), context.performed).Invoke();
-    }
-
-    private void MoveYCanceled(InputAction.CallbackContext context)
-    {
-        new CancelInputYEvent(context.ReadValue<float>(), context.performed).Invoke();
+        new InputYEvent(context.ReadValue<float>(), context.duration, context.phase).Invoke();
     }
 
     private void PressStarted(InputAction.CallbackContext context)
     {
-        new RequestInputPressEvent().Invoke();
+        new RequestInputPressEvent(context.duration, context.phase).Invoke();
     }
 
     private static Vector3 ScreenToWorld(Camera camera, Vector3 position)
