@@ -73,7 +73,7 @@ public readonly struct CancelInputYEvent : IEvent
     }
 }
 
-public readonly partial struct RequestInputPressEvent : IEvent { }
+public readonly struct RequestInputPressEvent : IEvent { }
 
 public class InputManager : MonoBehaviour
 {
