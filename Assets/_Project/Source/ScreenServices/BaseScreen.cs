@@ -8,14 +8,12 @@ public class BaseScreen : MonoBehaviour
     protected ISaveDataService SaveDataService;
     protected IScreenService ScreenService;
     protected ISoundService SoundService;
-    protected IEventsService EventsService;
 
     protected void Initialize()
     {
         SaveDataService = ServiceLocator.Instance.GetService<ISaveDataService>();
         ScreenService = ServiceLocator.Instance.GetService<IScreenService>();
         SoundService = ServiceLocator.Instance.GetService<ISoundService>();
-        EventsService = ServiceLocator.Instance.GetService<IEventsService>();
 #if UNITY_EDITOR
         Debug.Log($"Initialize <color=white>{_thisScreenRef.SceneName}</color>");
 #endif

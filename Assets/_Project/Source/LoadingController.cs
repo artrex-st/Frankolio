@@ -45,7 +45,8 @@ namespace Source
         private new void Dispose()
         {
             base.Dispose();
-            EventsService.Unsubscribe<ResponseLoadingPercentEvent>(HandlerResponseLoadingPercentEvent);
+            //EventsService.Unsubscribe<ResponseLoadingPercentEvent>(HandlerResponseLoadingPercentEvent);
+            new ResponseLoadingPercentEvent().RemoveListener(HandlerResponseLoadingPercentEvent);
         }
     }
 }
