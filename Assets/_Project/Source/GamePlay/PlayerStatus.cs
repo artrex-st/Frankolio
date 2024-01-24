@@ -5,7 +5,10 @@ using UnityEngine.Serialization;
 public class PlayerStatus : ScriptableObject
 {
     [SerializeField] private float _speed;
+    [SerializeField] private float _gravity;
+
 
     public float Speed => _speed;
+    public float Gravity => _gravity;
 }
 

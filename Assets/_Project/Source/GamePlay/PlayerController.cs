@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyGravity()
     {
-        _bodyDirection.y = _rigidbody.velocity.y;
+        _bodyDirection.y -= Mathf.Clamp(_bodyDirection.y, -10f, float.MaxValue);
     }
 
     private void ApplyPhysicMove()
@@ -62,6 +62,7 @@ public class PlayerController : MonoBehaviour
     private void HandlerStartInputXEvent(InputXEvent e)
     {
         _bodyDirection.x = e.AxisX;
+        new MoveAnimationEvent(e.AxisX).Invoke();
         Debug.Log($"Axis_X press: {e.AxisX}");
     }
 
