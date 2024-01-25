@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16a50502a83a5444b8026af978f4d263, type: 3}
   m_Name: PlayerStatus_Base
   m_EditorClassIdentifier: 
-  _speed: 10
+  _speed: 15
+  _gravity: 120
+  _detectGroundRange: 0.1
+  _jumpForce: 20

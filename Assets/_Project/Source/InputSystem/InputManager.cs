@@ -70,6 +70,7 @@ public class InputManager : MonoBehaviour
         _inputsActions.Player.Axis_Y.canceled += MoveY;
 
         _inputsActions.Player.Press.started += PressStarted;
+        _inputsActions.Player.Press.performed += PressStarted;
         _inputsActions.Player.Press.canceled += PressStarted;
     }
 

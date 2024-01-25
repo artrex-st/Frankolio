@@ -85,7 +85,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -96,7 +96,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &6503359715505728107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,6 +109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85c37907ce03b6342a68a840f415d55d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _jumpGroundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  _jumpFootPoint: {fileID: 0}
   _status: {fileID: 11400000, guid: bfb9c3d8cd1a0134282a74e261b3c27e, type: 2}
 --- !u!1001 &4033390805711397779
 PrefabInstance:
