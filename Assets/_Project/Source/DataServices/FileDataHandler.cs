@@ -19,10 +19,10 @@ namespace DataService
             _useEncryption = useEncryption;
         }
 
-        public GameData Load()
+        public SettingsData Load()
         {
             string fullPath = Path.Combine(_dataDirPath, _dataFileName);
-            GameData loadedData = null;
+            SettingsData loadedData = null;
 
             if (File.Exists(fullPath))
             {
@@ -43,7 +43,7 @@ namespace DataService
                         dataToLoad = EncryptDecrypt(dataToLoad);
                     }
 
-                    loadedData = JsonConvert.DeserializeObject<GameData>(dataToLoad);
+                    loadedData = JsonConvert.DeserializeObject<SettingsData>(dataToLoad);
                 }
                 catch (Exception e)
                 {
@@ -56,7 +56,7 @@ namespace DataService
             return loadedData;
         }
 
-        public void Save(GameData data)
+        public void Save(SettingsData data)
         {
             string fullPath = Path.Combine(_dataDirPath, _dataFileName);
 

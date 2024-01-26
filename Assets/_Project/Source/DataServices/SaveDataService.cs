@@ -4,7 +4,7 @@ namespace DataService
 {
     public sealed class SaveDataService : MonoBehaviour, ISaveDataService
     {
-        public GameData GameData { get; private set; }
+        public SettingsData SettingsData { get; private set; }
         private bool _useEncryption;
         private FileDataHandler _fileDataHandler;
 
@@ -19,26 +19,26 @@ namespace DataService
             LoadGame();
         }
 
-        public void SaveData(GameData data)
+        public void SaveData(SettingsData data)
         {
-            GameData = data;
+            SettingsData = data;
         }
 
         public void SaveGame()
         {
-            _fileDataHandler.Save(GameData);
+            _fileDataHandler.Save(SettingsData);
         }
 
         private void NewGame()
         {
-            GameData = new GameData();
+            SettingsData = new SettingsData();
         }
 
         private void LoadGame()
         {
-            GameData = _fileDataHandler.Load();
+            SettingsData = _fileDataHandler.Load();
 
-            if(GameData == null)
+            if(SettingsData == null)
             {
                 Debug.Log($"<color=green>New Game</color>, set all to default");
                 NewGame();
