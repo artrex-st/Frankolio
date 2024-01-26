@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class EventsService : MonoBehaviour, IEventsService
 {
-    private readonly Dictionary<Type, List<object>> eventListeners = new Dictionary<Type, List<object>>();
+    private readonly Dictionary<Type, List<object>> _eventListeners = new();
 
     public void Subscribe<T>(Action<T> callback) where T : IEvent
     {
         Type eventType = typeof(T);
 
-        if (!eventListeners.ContainsKey(eventType))
+        if (!_eventListeners.ContainsKey(eventType))
         {
-            eventListeners[eventType] = new List<object>();
+            _eventListeners[eventType] = new List<object>();
         }
 
-        eventListeners[eventType].Add(callback);
+        _eventListeners[eventType].Add(callback);
     }
 
     public void Unsubscribe<T>(Action<T> callback) where T : IEvent
     {
         Type eventType = typeof(T);
 
-        if (eventListeners.ContainsKey(eventType))
+        if (_eventListeners.TryGetValue(eventType, out List<object> listener))
         {
-            eventListeners[eventType].Remove(callback);
+            listener.Remove(callback);
         }
     }
 
@@ -32,9 +32,9 @@ public class EventsService : MonoBehaviour, IEventsService
     {
         Type eventType = typeof(T);
 
-        if (eventListeners.ContainsKey(eventType))
+        if (_eventListeners.ContainsKey(eventType))
         {
-            foreach (object handler in eventListeners[eventType])
+            foreach (object handler in _eventListeners[eventType])
             {
                 if (handler is Action<T> castedHandler)
                 {

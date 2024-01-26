@@ -3,9 +3,9 @@ namespace DataService
 {
     public interface ISaveDataService
     {
-        public GameData GameData { get; }
+        public SettingsData SettingsData { get; }
         public void Initialize(string fileName, bool useEncryption);
-        void SaveData(GameData data);
+        void SaveData(SettingsData data);
         public void SaveGame();
     }
 }

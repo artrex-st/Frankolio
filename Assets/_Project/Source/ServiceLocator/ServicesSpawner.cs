@@ -1,4 +1,5 @@
 using DataService;
+using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -26,18 +27,17 @@ public class ServicesSpawner : MonoBehaviour
         SpawnEventService();
         SpawnSaveDataService();
         SpawnSoundService();
+        SpawnGameDataService();
         SpawnScreenService();
     }
 
-    private void SpawnScreenService()
+    private void SpawnEventService()
     {
-        GameObject screenServiceObject = new GameObject(nameof(ScreenService));
-        DontDestroyOnLoad(screenServiceObject);
+        GameObject eventServiceObject = new GameObject(nameof(EventsService));
+        DontDestroyOnLoad(eventServiceObject);
 
-        ScreenService screenService = screenServiceObject.AddComponent<ScreenService>();
-        ServiceLocator.Instance.RegisterService<IScreenService>(screenService);
-        screenService.Initialize(_startupScreenName, _loadingScreenRef, _fakeLoadingTime);
-        screenService.LoadingSceneAsync(_firstSceneName);
+        EventsService eventsService = eventServiceObject.AddComponent<EventsService>();
+        ServiceLocator.Instance.RegisterService<IEventsService>(eventsService);
     }
 
     private void SpawnSaveDataService()
@@ -63,12 +63,23 @@ public class ServicesSpawner : MonoBehaviour
         ServiceLocator.Instance.RegisterService<ISoundService>(soundService);
     }
 
-    private void SpawnEventService()
+    private void SpawnGameDataService()
     {
-        GameObject eventServiceObject = new GameObject(nameof(EventsService));
-        DontDestroyOnLoad(eventServiceObject);
+        GameObject gameDataServiceObject = new GameObject(nameof(GameDataService));
+        DontDestroyOnLoad(gameDataServiceObject);
 
-        EventsService eventsService = eventServiceObject.AddComponent<EventsService>();
-        ServiceLocator.Instance.RegisterService<IEventsService>(eventsService);
+        GameDataService gameDataService = gameDataServiceObject.AddComponent<GameDataService>();
+        ServiceLocator.Instance.RegisterService<IGameDataService>(gameDataService);
+    }
+
+    private void SpawnScreenService()
+    {
+        GameObject screenServiceObject = new GameObject(nameof(ScreenService));
+        DontDestroyOnLoad(screenServiceObject);
+
+        ScreenService screenService = screenServiceObject.AddComponent<ScreenService>();
+        ServiceLocator.Instance.RegisterService<IScreenService>(screenService);
+        screenService.Initialize(_startupScreenName, _loadingScreenRef, _fakeLoadingTime);
+        screenService.LoadingSceneAsync(_firstSceneName);
     }
 }

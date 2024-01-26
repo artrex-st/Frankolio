@@ -100,10 +100,10 @@ public class SoundService : MonoBehaviour, ISoundService
     private async void LoadSoundVolumeAsync()
     {
         await UniTask.DelayFrame(1);
-        MasterVolume = _saveDataService.GameData.MasterVolume;
-        MusicVolume = _saveDataService.GameData.MusicVolume;
-        SfxVolume = _saveDataService.GameData.SfxVolume;
-        UiSfxVolume = _saveDataService.GameData.UiSfxVolume;
+        MasterVolume = _saveDataService.SettingsData.MasterVolume;
+        MusicVolume = _saveDataService.SettingsData.MusicVolume;
+        SfxVolume = _saveDataService.SettingsData.SfxVolume;
+        UiSfxVolume = _saveDataService.SettingsData.UiSfxVolume;
     }
 }
 

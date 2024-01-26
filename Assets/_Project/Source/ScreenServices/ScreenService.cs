@@ -92,13 +92,13 @@ public class ScreenService : MonoBehaviour, IScreenService
             }
 
             totalSceneProgress = Mathf.Clamp01((totalSceneProgress / _scenesToLoading.Count) / .9f);
-            _eventsService.Invoke(new ResponseLoadingPercentEvent(totalSceneProgress));
+            new ResponseLoadingPercentEvent(totalSceneProgress).Invoke();
             await UniTask.Yield();
             timeInLoading += Time.deltaTime;
         }
         while (totalSceneProgress < .99f );
 
-        _eventsService.Invoke(new ResponseLoadingPercentEvent(totalSceneProgress));
+        new ResponseLoadingPercentEvent(totalSceneProgress).Invoke();
 
         if (timeInLoading < _fakeLoadTime)
         {

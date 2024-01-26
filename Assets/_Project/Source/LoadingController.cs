@@ -1,4 +1,3 @@
-using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -32,7 +31,9 @@ namespace Source
         private new void Initialize()
         {
             base.Initialize();
-            EventsService.Subscribe<ResponseLoadingPercentEvent>(HandlerResponseLoadingPercentEvent);
+            //EventsService.Subscribe<ResponseLoadingPercentEvent>(HandlerResponseLoadingPercentEvent);
+            new ResponseLoadingPercentEvent().AddListener(HandlerResponseLoadingPercentEvent);
+
             _loadBar.value = 0;
         }
 
@@ -44,7 +45,8 @@ namespace Source
         private new void Dispose()
         {
             base.Dispose();
-            EventsService.Unsubscribe<ResponseLoadingPercentEvent>(HandlerResponseLoadingPercentEvent);
+            //EventsService.Unsubscribe<ResponseLoadingPercentEvent>(HandlerResponseLoadingPercentEvent);
+            new ResponseLoadingPercentEvent().RemoveListener(HandlerResponseLoadingPercentEvent);
         }
     }
 }

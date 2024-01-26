@@ -1,7 +1,7 @@
 using UnityEngine;
 
 
-[CreateAssetMenu(menuName = "ScreenService/Screen Reference")]
+[CreateAssetMenu(menuName = "Services/Screen Reference")]
 public sealed class ScreenReference : ScriptableObject
 {
     [SerializeField] private string _sceneName;
