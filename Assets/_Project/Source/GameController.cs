@@ -28,5 +28,6 @@ public class GameController : BaseScreen
     private void HandlerGameMenuClick()
     {
         ScreenService.LoadingSceneAdditiveAsync(_gameMenuRef);
+        new RequestNewGameStateEvent(GameStates.GamePaused).Invoke();
     }
 }
