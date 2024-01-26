@@ -12,9 +12,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 _inputDirection;
     private bool _isGround;
     private bool _isJumping;
-    private bool _isGameRuning;
+    private bool _isGameRunning;
     private IEventsService _eventService;
     private InputManager _inputManager;
+    private IGameDataService _gameDataService;
 
     private Rigidbody2D _rigidbody => GetComponent<Rigidbody2D>();
 
@@ -25,8 +26,8 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Move();
-        Jump();
+        ApplyDirection();
+        ApplyJump();
     }
 
     private void FixedUpdate()
@@ -42,7 +43,9 @@ public class PlayerController : MonoBehaviour
 
     private void Initialize()
     {
+        _gameDataService = ServiceLocator.Instance.GetService<IGameDataService>();
         new RequestNewGameStateEvent().AddListener(HandlerRequestNewGameStateEvent);
+
         _inputManager = gameObject.AddComponent<InputManager>();
         new RequestInputPressEvent().AddListener(HandlerRequestInputPressEvent);
         new InputXEvent().AddListener(HandlerStartInputXEvent);
@@ -65,7 +68,7 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyPhysic()
     {
-        if (!_isGameRuning)
+        if (!_isGameRunning)
         {
             return;
         }
@@ -84,7 +87,7 @@ public class PlayerController : MonoBehaviour
         _bodyDirection.y -= Mathf.Clamp(_status.Gravity * Time.deltaTime, 0f, float.MaxValue);
     }
 
-    private void Jump()
+    private void ApplyJump()
     {
         if (_isGround && _isJumping)
         {
@@ -93,14 +96,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Move()
+    private void ApplyDirection()
     {
         _bodyDirection.x = _inputDirection.x * _status.Speed;
     }
 
     private void HandlerRequestNewGameStateEvent(RequestNewGameStateEvent e)
     {
-        _isGameRuning = e.CurrentGameState.Equals(GameStates.GameRunning);
+        _isGameRunning = e.CurrentGameState.Equals(GameStates.GameRunning);
+        _rigidbody.bodyType = _isGameRunning ? RigidbodyType2D.Dynamic : RigidbodyType2D.Static;
     }
 
     private void HandlerStartInputYEvent(InputYEvent e)

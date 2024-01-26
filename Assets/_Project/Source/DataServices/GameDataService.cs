@@ -25,9 +25,11 @@ public class GameDataService : MonoBehaviour, IGameDataService
     {
         if (newGameState == CurrentGameState)
         {
+            Debug.Log($"<color=Yellow>Game State Not changed!</color>");
             return;
         }
 
+        Debug.Log($"<color=Green>Game State changed from: {CurrentGameState} to {newGameState}!</color>");
         CurrentGameState = newGameState;
         new RequestNewGameStateEvent(CurrentGameState).Invoke();
     }
