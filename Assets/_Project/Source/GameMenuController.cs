@@ -31,6 +31,7 @@ public class GameMenuController : BaseScreen
     private void HandlerCloseClick()
     {
         ScreenService.UnLoadAdditiveSceneAsync(_thisScreenRef);
+        new RequestGameStateUpdateEvent(GameStates.GameRunning).Invoke();
     }
 
     private void HandlerSettingsClick()

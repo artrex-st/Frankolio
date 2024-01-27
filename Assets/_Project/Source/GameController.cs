@@ -1,6 +1,5 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,10 +22,19 @@ public class GameController : BaseScreen
     {
         base.Initialize();
         _mainMenuBtn.onClick.AddListener(HandlerGameMenuClick);
+        StartGame();
+    }
+
+    private async void StartGame()
+    {
+        //TODO: Finish Loading screen fade effect time using DOTween
+        await UniTask.Delay(TimeSpan.FromSeconds(2));
+        new RequestGameStateUpdateEvent(GameStates.GameRunning).Invoke();
     }
 
     private void HandlerGameMenuClick()
     {
         ScreenService.LoadingSceneAdditiveAsync(_gameMenuRef);
+        new RequestGameStateUpdateEvent(GameStates.GamePaused).Invoke();
     }
 }

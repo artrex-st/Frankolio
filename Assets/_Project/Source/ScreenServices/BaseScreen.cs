@@ -22,7 +22,7 @@ public class BaseScreen : MonoBehaviour
     protected void Dispose()
     {
 #if UNITY_EDITOR
-        Debug.Log($"Disposed <color=Orage>{_thisScreenRef.SceneName}</color>");
+        Debug.Log($"Disposed <color=Green>{_thisScreenRef.SceneName}</color>");
 #endif
     }
 }

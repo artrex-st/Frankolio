@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D))]
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private LayerMask _jumpGroundLayer;
     [SerializeField] private Transform _jumpFootPoint;
     [SerializeField] private PlayerStatus _status;
 
@@ -13,8 +12,10 @@ public class PlayerController : MonoBehaviour
     private Vector2 _inputDirection;
     private bool _isGround;
     private bool _isJumping;
+    private bool _isGameRunning;
     private IEventsService _eventService;
     private InputManager _inputManager;
+    private IGameDataService _gameDataService;
 
     private Rigidbody2D _rigidbody => GetComponent<Rigidbody2D>();
 
@@ -25,14 +26,13 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        Move();
-        Jump();
+        ApplyDirection();
+        ApplyJump();
     }
 
     private void FixedUpdate()
     {
         JumpGroundCheck();
-        ApplyGravity();
         ApplyPhysic();
     }
 
@@ -43,6 +43,9 @@ public class PlayerController : MonoBehaviour
 
     private void Initialize()
     {
+        _gameDataService = ServiceLocator.Instance.GetService<IGameDataService>();
+        new ResponseGameStateUpdateEvent().AddListener(HandlerRequestNewGameStateEvent);
+
         _inputManager = gameObject.AddComponent<InputManager>();
         new RequestInputPressEvent().AddListener(HandlerRequestInputPressEvent);
         new InputXEvent().AddListener(HandlerStartInputXEvent);
@@ -58,9 +61,20 @@ public class PlayerController : MonoBehaviour
 
     private void JumpGroundCheck()
     {
-        _isGround = Physics2D.Raycast(_jumpFootPoint.position, Vector2.down, _status.DetectGroundRange, _jumpGroundLayer);
+        _isGround = Physics2D.Raycast(_jumpFootPoint.position, Vector2.down, _status.DetectGroundRange, _status.JumpGroundLayer);
         // isWall = Physics2D.OverlapCircle(wJPoint.position, wJRange, wJLayer);
         // canWallJump = isWall && !isGround && inputX != 0 && playerBody.velocity.y <= 0;
+    }
+
+    private void ApplyPhysic()
+    {
+        if (!_isGameRunning)
+        {
+            return;
+        }
+
+        ApplyGravity();
+        _rigidbody.velocity = _bodyDirection;
     }
 
     private void ApplyGravity()
@@ -73,12 +87,7 @@ public class PlayerController : MonoBehaviour
         _bodyDirection.y -= Mathf.Clamp(_status.Gravity * Time.deltaTime, 0f, float.MaxValue);
     }
 
-    private void ApplyPhysic()
-    {
-        _rigidbody.velocity = _bodyDirection;
-    }
-
-    private void Jump()
+    private void ApplyJump()
     {
         if (_isGround && _isJumping)
         {
@@ -87,9 +96,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Move()
+    private void ApplyDirection()
     {
         _bodyDirection.x = _inputDirection.x * _status.Speed;
+    }
+
+    private void HandlerRequestNewGameStateEvent(ResponseGameStateUpdateEvent e)
+    {
+        _isGameRunning = e.CurrentGameState.Equals(GameStates.GameRunning);
+        _rigidbody.bodyType = _isGameRunning ? RigidbodyType2D.Dynamic : RigidbodyType2D.Static;
     }
 
     private void HandlerStartInputYEvent(InputYEvent e)

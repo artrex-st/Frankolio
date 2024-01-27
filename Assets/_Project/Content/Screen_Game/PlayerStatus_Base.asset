@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 15
   _gravity: 120
+  _jumpGroundLayer:
+    serializedVersion: 2
+    m_Bits: 8
   _detectGroundRange: 0.1
   _jumpForce: 20

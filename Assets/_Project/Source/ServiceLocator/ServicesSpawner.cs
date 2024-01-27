@@ -70,6 +70,8 @@ public class ServicesSpawner : MonoBehaviour
 
         GameDataService gameDataService = gameDataServiceObject.AddComponent<GameDataService>();
         ServiceLocator.Instance.RegisterService<IGameDataService>(gameDataService);
+
+        gameDataService.Initialize();
     }
 
     private void SpawnScreenService()

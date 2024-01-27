@@ -17,6 +17,7 @@ public readonly struct MoveAnimationEvent : IEvent
 public class PlayerAnimatorManager : MonoBehaviour
 {
     private static readonly int Move = Animator.StringToHash("Move");
+    private bool _isGameRunning;
 
     private Animator _animator => GetComponent<Animator>();
 
@@ -33,11 +34,17 @@ public class PlayerAnimatorManager : MonoBehaviour
     private void Initialize()
     {
         new MoveAnimationEvent().AddListener(HandlerMoveAnimationEvent);
+        new ResponseGameStateUpdateEvent().AddListener(HandlerRequestNewGameStateEvent);
+    }
+
+    private void HandlerRequestNewGameStateEvent(ResponseGameStateUpdateEvent e)
+    {
+        _animator.enabled = e.CurrentGameState.Equals(GameStates.GameRunning);
     }
 
     private void HandlerMoveAnimationEvent(MoveAnimationEvent e)
     {
-        if (e.Speed != 0)
+        if (e.Speed != 0 && _animator.enabled)
         {
             transform.localScale = new Vector3(e.Speed < 0 ? -1 : 1, transform.localScale.y);
         }
