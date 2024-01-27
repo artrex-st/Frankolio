@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum GameStates
@@ -7,11 +8,21 @@ public enum GameStates
     GameWaiting
 }
 
-public struct RequestNewGameStateEvent : IEvent
+public struct RequestGameStateUpdateEvent : IEvent
+{
+    public readonly GameStates NewGameState;
+
+    public RequestGameStateUpdateEvent(GameStates newGameState)
+    {
+        NewGameState = newGameState;
+    }
+}
+
+public struct ResponseGameStateUpdateEvent : IEvent
 {
     public readonly GameStates CurrentGameState;
 
-    public RequestNewGameStateEvent(GameStates currentGameState)
+    public ResponseGameStateUpdateEvent(GameStates currentGameState)
     {
         CurrentGameState = currentGameState;
     }
@@ -20,6 +31,11 @@ public struct RequestNewGameStateEvent : IEvent
 public class GameDataService : MonoBehaviour, IGameDataService
 {
     public GameStates CurrentGameState { get; private set; } = GameStates.GameWaiting;
+
+    public void Initialize()
+    {
+        new RequestGameStateUpdateEvent().AddListener(HandlerRequestGameStateUpdateEvent);
+    }
 
     public void SetGameState(GameStates newGameState)
     {
@@ -31,6 +47,11 @@ public class GameDataService : MonoBehaviour, IGameDataService
 
         Debug.Log($"<color=Green>Game State changed from: {CurrentGameState} to {newGameState}!</color>");
         CurrentGameState = newGameState;
-        new RequestNewGameStateEvent(CurrentGameState).Invoke();
+        new ResponseGameStateUpdateEvent(CurrentGameState).Invoke();
+    }
+
+    private void HandlerRequestGameStateUpdateEvent(RequestGameStateUpdateEvent e)
+    {
+        SetGameState(e.NewGameState);
     }
 }

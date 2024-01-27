@@ -34,10 +34,10 @@ public class PlayerAnimatorManager : MonoBehaviour
     private void Initialize()
     {
         new MoveAnimationEvent().AddListener(HandlerMoveAnimationEvent);
-        new RequestNewGameStateEvent().AddListener(HandlerRequestNewGameStateEvent);
+        new ResponseGameStateUpdateEvent().AddListener(HandlerRequestNewGameStateEvent);
     }
 
-    private void HandlerRequestNewGameStateEvent(RequestNewGameStateEvent e)
+    private void HandlerRequestNewGameStateEvent(ResponseGameStateUpdateEvent e)
     {
         _animator.enabled = e.CurrentGameState.Equals(GameStates.GameRunning);
     }

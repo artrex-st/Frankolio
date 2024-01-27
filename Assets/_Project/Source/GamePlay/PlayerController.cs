@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     private void Initialize()
     {
         _gameDataService = ServiceLocator.Instance.GetService<IGameDataService>();
-        new RequestNewGameStateEvent().AddListener(HandlerRequestNewGameStateEvent);
+        new ResponseGameStateUpdateEvent().AddListener(HandlerRequestNewGameStateEvent);
 
         _inputManager = gameObject.AddComponent<InputManager>();
         new RequestInputPressEvent().AddListener(HandlerRequestInputPressEvent);
@@ -101,7 +101,7 @@ public class PlayerController : MonoBehaviour
         _bodyDirection.x = _inputDirection.x * _status.Speed;
     }
 
-    private void HandlerRequestNewGameStateEvent(RequestNewGameStateEvent e)
+    private void HandlerRequestNewGameStateEvent(ResponseGameStateUpdateEvent e)
     {
         _isGameRunning = e.CurrentGameState.Equals(GameStates.GameRunning);
         _rigidbody.bodyType = _isGameRunning ? RigidbodyType2D.Dynamic : RigidbodyType2D.Static;
