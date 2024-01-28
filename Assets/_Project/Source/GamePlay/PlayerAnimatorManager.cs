@@ -1,15 +1,26 @@
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public readonly struct MoveAnimationEvent : IEvent
+public readonly struct RequestMoveAnimationEvent : IEvent
 {
     public readonly float Speed;
 
-    public MoveAnimationEvent(float speed)
+    public RequestMoveAnimationEvent(float speed)
     {
         Speed = speed;
+    }
+}
+
+public readonly struct RequestJumpAnimationEvent : IEvent
+{
+    public readonly float JumpSpeed;
+    public readonly bool IsGrounded;
+
+    public RequestJumpAnimationEvent(float jumpSpeed, bool isGrounded)
+    {
+        JumpSpeed = jumpSpeed;
+        IsGrounded = isGrounded;
     }
 }
 
@@ -17,6 +28,8 @@ public readonly struct MoveAnimationEvent : IEvent
 public class PlayerAnimatorManager : MonoBehaviour
 {
     private static readonly int Move = Animator.StringToHash("Move");
+    private static readonly int JumpSpeed = Animator.StringToHash("JumpSpeed");
+    private static readonly int IsGrounded = Animator.StringToHash("IsGrounded");
     private bool _isGameRunning;
 
     private Animator _animator => GetComponent<Animator>();
@@ -33,8 +46,9 @@ public class PlayerAnimatorManager : MonoBehaviour
 
     private void Initialize()
     {
-        new MoveAnimationEvent().AddListener(HandlerMoveAnimationEvent);
         new ResponseGameStateUpdateEvent().AddListener(HandlerRequestNewGameStateEvent);
+        new RequestMoveAnimationEvent().AddListener(HandlerRequestMoveAnimationEvent);
+        new RequestJumpAnimationEvent().AddListener(HandlerRequestJumpAnimationEvent);
     }
 
     private void HandlerRequestNewGameStateEvent(ResponseGameStateUpdateEvent e)
@@ -42,7 +56,7 @@ public class PlayerAnimatorManager : MonoBehaviour
         _animator.enabled = e.CurrentGameState.Equals(GameStates.GameRunning);
     }
 
-    private void HandlerMoveAnimationEvent(MoveAnimationEvent e)
+    private void HandlerRequestMoveAnimationEvent(RequestMoveAnimationEvent e)
     {
         if (e.Speed != 0 && _animator.enabled)
         {
@@ -52,8 +66,14 @@ public class PlayerAnimatorManager : MonoBehaviour
         _animator.SetFloat(Move, Mathf.Abs(e.Speed));
     }
 
+    private void HandlerRequestJumpAnimationEvent(RequestJumpAnimationEvent e)
+    {
+        _animator.SetFloat(JumpSpeed, e.JumpSpeed);
+        _animator.SetBool(IsGrounded, e.IsGrounded);
+    }
+
     private void Dispose()
     {
-        new MoveAnimationEvent().RemoveListener(HandlerMoveAnimationEvent);
+        new RequestMoveAnimationEvent().RemoveListener(HandlerRequestMoveAnimationEvent);
     }
 }

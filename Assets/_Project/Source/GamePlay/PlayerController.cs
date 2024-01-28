@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
@@ -74,6 +75,7 @@ public class PlayerController : MonoBehaviour
         }
 
         ApplyGravity();
+        new RequestJumpAnimationEvent(_rigidbody.velocity.y, _isGround).Invoke();
         _rigidbody.velocity = _bodyDirection;
     }
 
@@ -81,10 +83,14 @@ public class PlayerController : MonoBehaviour
     {
         if (_isGround)
         {
+            if (_bodyDirection.y < -1)
+            {
+                _bodyDirection.y = 0;
+            }
             return;
         }
 
-        _bodyDirection.y -= Mathf.Clamp(_status.Gravity * Time.deltaTime, 0f, float.MaxValue);
+        _bodyDirection.y = Mathf.Clamp(_bodyDirection.y - (_status.Gravity * Time.deltaTime), _status.MaxFallSpeed, float.MaxValue);
     }
 
     private void ApplyJump()
@@ -115,13 +121,13 @@ public class PlayerController : MonoBehaviour
     private void HandlerStartInputXEvent(InputXEvent e)
     {
         _inputDirection.x = e.AxisX;
-        new MoveAnimationEvent(e.AxisX).Invoke();
+        new RequestMoveAnimationEvent(e.AxisX).Invoke();
     }
 
     private void HandlerRequestInputPressEvent(RequestInputPressEvent e)
     {
         Debug.Log($"Button Phase: {e.CurrentPhase}");
-        if (_isGround)
+        if (_isGround && e.CurrentPhase.Equals(InputActionPhase.Started))
         {
             _isJumping = true;
         }
