@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour
 
     private void Dispose()
     {
+        new ResponseGameStateUpdateEvent().RemoveListener(HandlerRequestNewGameStateEvent);
         new RequestInputPressEvent().RemoveListener(HandlerRequestInputPressEvent);
         new InputXEvent().RemoveListener(HandlerStartInputXEvent);
         new InputYEvent().RemoveListener(HandlerStartInputYEvent);

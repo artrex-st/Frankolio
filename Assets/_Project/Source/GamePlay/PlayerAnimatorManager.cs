@@ -74,6 +74,9 @@ public class PlayerAnimatorManager : MonoBehaviour
 
     private void Dispose()
     {
+        new ResponseGameStateUpdateEvent().RemoveListener(HandlerRequestNewGameStateEvent);
         new RequestMoveAnimationEvent().RemoveListener(HandlerRequestMoveAnimationEvent);
+        new RequestJumpAnimationEvent().RemoveListener(HandlerRequestJumpAnimationEvent);
+
     }
 }
