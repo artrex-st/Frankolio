@@ -1,4 +1,4 @@
-name: Actions - Build
+name: Actions
 
 on: [push, pull_request]
 
@@ -8,13 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Checkout
-      - name: Checkout
-        uses: actions/checkout@v4.1.1
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           lfs: true
 
       # Cache
-      - uses: actions/cache@v4.0.0
+      - uses: actions/cache@v4
         with:
           path: Library
           key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -23,7 +23,7 @@ jobs:
 
       # Test
       - name: Run tests
-        uses: game-ci/unity-test-runner@v4.1.4
+        uses: game-ci/unity-test-runner@v4
         env:
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
